@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b6jegoncmavbt"]
 
 [ext_resource type="Texture2D" uid="uid://5u867oypty2o" path="res://Images/Background_Stars-0001.png" id="1_jvtle"]
+[ext_resource type="Script" uid="uid://bypky121d08hj" path="res://Scripts/GameArea.cs" id="2_nwl4p"]
 
 [node name="BackGround" type="TextureRect" unique_id=99680285]
 anchors_preset = 15
@@ -11,3 +12,4 @@ grow_vertical = 2
 texture = ExtResource("1_jvtle")
 expand_mode = 5
 stretch_mode = 1
+script = ExtResource("2_nwl4p")
