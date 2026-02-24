@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b6jegoncmavbt"]
+
+[ext_resource type="Texture2D" uid="uid://5u867oypty2o" path="res://Images/Background_Stars-0001.png" id="1_jvtle"]
+
+[node name="BackGround" type="TextureRect" unique_id=99680285]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_jvtle")
+expand_mode = 5
+stretch_mode = 1

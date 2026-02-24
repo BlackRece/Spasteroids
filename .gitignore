@@ -1,0 +1,32 @@
+# Godot 4+ specific ignores
+.godot/
+.nomedia
+.import/
+export.cfg
+export_credentials.cfg
+*.tmp
+
+# Imported translations (automatically generated from CSV files)
+*.translation
+
+# Mono-specific ignores
+.mono/
+data_*/
+mono_crash.*.json
+
+# Android
+/android/
+
+# Rider
+# Rider auto-generates .iml files, and contentModel.xml
+**/.idea/**/*.iml
+**/.idea/**/contentModel.xml
+**/.idea/**/modules.xml
+
+*.suo
+*.user
+.vs/
+[Bb]in/
+[Oo]bj/
+_UpgradeReport_Files/
+[Pp]ackages/
