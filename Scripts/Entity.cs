@@ -7,7 +7,7 @@ public partial class Entity : Area2D
 {
     [Export] public Vector2 StartingPos { get; set; }
     
-    [Export] public float RotateSpeed = 1f;
+    [Export] public float RotateSpeed = 2.5f;
     [Export] public float Accel = 10f;
     [Export] public float Decel = 5f;
     [Export] public float MaxSpeed = 20f;
