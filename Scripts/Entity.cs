@@ -10,17 +10,19 @@ public partial class Entity : Area2D
     [Export] public float RotateSpeed = 1f;
     [Export] public float Accel = 10f;
     [Export] public float Decel = 5f;
-    [Export] public float MaxSpeed = 50f;
+    [Export] public float MaxSpeed = 20f;
 
 
     public Vector2 InputDirection = Vector2.Zero;
     private Vector2 _currentVelocity = Vector2.Zero;
 
-    protected Vector2 Area => GetViewportRect().Size;
+    //protected Vector2 Area => GetParent<Control>().GetViewport().GetVisibleRect().Size;
+    protected Vector2 Area => GetViewport().GetVisibleRect().Size;
+
     
     public override void _Ready()
     {
-        Position = StartingPos;
+        GlobalPosition = StartingPos;
         base._Ready();
     }
 
@@ -39,9 +41,9 @@ public partial class Entity : Area2D
                 (float)(Decel * delta));
 
         // Apply velocity
-        var pos = Position + (_currentVelocity * MaxSpeed) * (float)delta;
+        var pos = GlobalPosition + (_currentVelocity * MaxSpeed) * (float)delta;
         
-        Position = BoundaryWrap(pos);
+        GlobalPosition = BoundaryWrap(pos);
         //Position = BoundaryLock(pos);
     }
     
