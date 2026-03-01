@@ -14,6 +14,20 @@ public partial class Shots : Area2D
 	public int Damage => _damage;
 	[Export] public int InitDamage { get; set; } = 1;
 
+	public record InitVars
+	{
+		public Vector2 Position { get; init; } = Vector2.Zero;
+		public float Rotation { get; init; } = 0f;
+		public float Range { get; init; } = 0f;
+	}
+	
+	public void Init(InitVars vars)
+	{
+		Position = vars.Position;
+		Rotation = vars.Rotation;
+		Position += Vector2.Up.Rotated(Rotation) * vars.Range;
+	}
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
