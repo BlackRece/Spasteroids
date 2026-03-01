@@ -6,6 +6,7 @@ public partial class Player : Entity
 	[Export] public float BottomOffset { get; set; } = 50;
 
 	[Export] public double ShotDelay { get; set; } = 0.1f;
+	[Export] public float SpawnRadius { get; set; } = 1f;
 	[Export] public PackedScene BulletScene { get; set; }
 	private Timer _bulletTimer;
 	
@@ -80,8 +81,12 @@ public partial class Player : Entity
 		
 		// TODO: use object pooling
 		var shot = BulletScene.Instantiate<Shots>();
-		shot.Position = Position;
-		shot.Rotation = Rotation;
+		shot.Init(new Shots.InitVars()
+		{
+			Position = Position,
+			Rotation = Rotation,
+			Range = SpawnRadius
+		});
 		GetParent().AddChild(shot);
 	}
 }
