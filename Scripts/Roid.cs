@@ -49,10 +49,15 @@ public partial class Roid : Entity
 	public override void _Process(double delta)
 	{
 		_sprite.Rotation += _spinDirection;
-
-		InputDirection = Vector2.Up.Rotated(Rotation) * 1f;// * _roidType[Type].Speed;
 		
 		base._Process(delta);
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		InputDirection = Vector2.Up.Rotated(Rotation);
+		
+		base._PhysicsProcess(delta);
 	}
 
 	private Vector2 SetStartPosition()

@@ -43,11 +43,16 @@ public partial class Player : Entity
 		if(Input.IsActionPressed("kb_fire"))
 			FireWeapon();
 		
-		MoveShip(delta);
-		
 		base._Process(delta);
 	}
-	
+
+	public override void _PhysicsProcess(double delta)
+	{
+		MoveShip(delta); 
+		
+		base._PhysicsProcess(delta);
+	}
+
 	private void MoveShip(double delta)
 	{
 		// Apply velocity

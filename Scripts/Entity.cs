@@ -26,7 +26,7 @@ public partial class Entity : Area2D
         base._Ready();
     }
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
         var targetVelocity = InputDirection * MaxSpeed;
         _currentVelocity = InputDirection.Length() > 0

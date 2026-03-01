@@ -32,10 +32,12 @@ public partial class Shots : Area2D
 	public override void _Ready()
 	{
 		_damage = InitDamage;
+		
+		AreaEntered += OnAreaEntered; 
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		// TODO: move in facing direction
 		//Position += Vector2.Up.Rotated(Rotation) * (float)delta;
