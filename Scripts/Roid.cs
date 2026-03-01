@@ -55,9 +55,20 @@ public partial class Roid : Entity
 		base._Process(delta);
 	}
 
-	private Vector2 SetStartPosition() =>
-		new(
-			(GD.Randf() < 0.5f) ? 0f : Area.X,
-			(GD.Randf() < 0.5f) ? 0f : Area.Y
+	private Vector2 SetStartPosition()
+	{
+		var pos = new Vector2(
+			(float)GD.RandRange(0f, Area.X),
+			(float)GD.RandRange(0f, Area.Y)
 		);
+
+		return GD.RandRange(1, 4) switch
+		{
+			1 => new Vector2(pos.X, 0), // top
+			2 => new Vector2(Area.X, pos.Y), // right
+			3 => new Vector2(pos.X, Area.X), // bottom
+			4 => new Vector2(0, pos.Y), // left
+			_ => pos
+		};
+	}
 }
