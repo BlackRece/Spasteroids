@@ -56,6 +56,12 @@ kb_alt={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Shot"
+2d_physics/layer_3="Roid"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
