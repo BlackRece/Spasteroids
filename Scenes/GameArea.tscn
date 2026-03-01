@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bypky121d08hj" path="res://Scripts/GameArea.cs" id="2_nwl4p"]
 [ext_resource type="PackedScene" uid="uid://c6h7md7igrdar" path="res://Scenes/Player.tscn" id="3_ckxko"]
 [ext_resource type="PackedScene" uid="uid://h22nv0i7rrxl" path="res://Scenes/Roid.tscn" id="4_1gfjg"]
+[ext_resource type="Script" uid="uid://chf7p8ksy37x1" path="res://Scripts/RoidManager.cs" id="5_dpkbi"]
 
 [node name="BackGround" type="TextureRect" unique_id=99680285]
 anchors_preset = 15
@@ -21,3 +22,7 @@ position = Vector2(580, 567)
 
 [node name="Roid" parent="." unique_id=1707101238 instance=ExtResource("4_1gfjg")]
 position = Vector2(288, 455)
+
+[node name="RoidManager" type="Node2D" parent="." unique_id=691843420]
+script = ExtResource("5_dpkbi")
+RoidScene = ExtResource("4_1gfjg")
