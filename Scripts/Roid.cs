@@ -72,6 +72,12 @@ public partial class Roid : Entity
 	{
 		_sprite.Rotation += _spinDirection;
 		
+		if (_hitPoints <= 0)
+		{
+			EmitSignal(SignalName.Destroyed, this);
+			QueueFree();
+		}
+		
 		base._Process(delta);
 	}
 
@@ -122,10 +128,6 @@ public partial class Roid : Entity
 				break;
 		}
 
-		if (_hitPoints <= 0)
-		{
-			EmitSignal(SignalName.Destroyed, this);
-			QueueFree();
-		}
+		
 	}
 }
