@@ -1,38 +1,55 @@
 using Godot;
 using System.Collections.Generic;
-using System.Numerics;
-using Vector2 = Godot.Vector2;
 
 namespace Spasteroids.Scripts;
+
 public partial class Roid : Entity
 {
+	[Signal]
+	public delegate void DestroyedEventHandler(Roid roid); 
 	[Export] public float SpinSpeed { get; set; } = 0.125f;
 	private float _spinDirection = 0f;
 	private Sprite2D _sprite = null;
 
-	private RoidType Type { get; set; } = RoidType.Large;
-	public enum RoidType { Small = 0, Medium, Large }
+	public int MaxHitPoints { get; set; } = 10;
+	private int _hitPoints = 0;
 
-	private Dictionary<RoidType, RoidData> _roidType = [];
-	public record RoidData
+	public RoidType Type { get; private set; } = RoidType.Large;
+	public enum RoidType { None = 0, Small, Medium, Large }
+
+	private Dictionary<RoidType, RoidTypeData> _roidType = [];
+	public record RoidTypeData
 	{
 		public float Speed { get; init; } = 0f;
 		public float Scale { get; init; } = 1f;
 	}
 	
+	public record RoidData
+	{
+		public RoidType Type { get; init; } = RoidType.None;
+		public Vector2 Pos { get; init; } = Vector2.Zero;
+		
+		public static RoidData Default() => new ()
+		{
+			Type = RoidType.Large,
+			Pos = Vector2.Zero
+		};
+	}
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_roidType = new Dictionary<RoidType, RoidData>()
+		_roidType = new Dictionary<RoidType, RoidTypeData>()
 		{
-			[RoidType.Small] = new(){ Scale = 1f, Speed = 30f},
-			[RoidType.Medium] = new(){ Scale = 3f, Speed = 20f},
-			[RoidType.Large] = new(){ Scale = 5f, Speed = 10f}
+			[RoidType.Small] = new(){ Scale = 1f, Speed = 20f},
+			[RoidType.Medium] = new(){ Scale = 3f, Speed = 10f},
+			[RoidType.Large] = new(){ Scale = 5f, Speed = 5f}
 		};
 
 		MaxSpeed = _roidType[Type].Speed;
 
-		GlobalPosition = SetStartPosition();
+		if(Type == RoidType.Large)
+			GlobalPosition = SetStartPosition();
 		
 		Rotation = (float)GD.RandRange(0f, Mathf.Tau);
 
@@ -41,6 +58,11 @@ public partial class Roid : Entity
 		_spinDirection = GD.Randf() < 0.5f ? SpinSpeed * 1 : SpinSpeed * -1;
 
 		Scale = Scale * _roidType[Type].Scale;
+
+		// TODO: to be multiplied by level
+		_hitPoints = MaxHitPoints;
+		
+		AreaEntered += OnAreaEntered;
 		
 		base._Ready();
 	}
@@ -75,5 +97,35 @@ public partial class Roid : Entity
 			4 => new Vector2(0, pos.Y), // left
 			_ => pos
 		};
+	}
+
+	public void Init(RoidData data)
+	{
+		Type = data.Type;
+		Position = data.Pos;
+	}
+	public void SetType(RoidType type = RoidType.Large) => Type = type;
+
+	public void OnAreaEntered(Area2D other)
+	{
+		switch (other)
+		{
+			case Shots shot:
+				// call shot methods
+				_hitPoints--;
+				break;
+			case Player player:
+				// call player methods
+				break;
+			case Entity entity:
+				// call entity methods
+				break;
+		}
+
+		if (_hitPoints <= 0)
+		{
+			EmitSignal(SignalName.Destroyed, this);
+			QueueFree();
+		}
 	}
 }
