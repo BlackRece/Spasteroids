@@ -69,14 +69,19 @@ public partial class Player : Entity
 		}
 		else
 		{
-			GD.PushWarning($"Timer: {_bulletTimer.GetTimeLeft()}");
+			//GD.PushWarning($"Timer: {_bulletTimer.GetTimeLeft()}");
 		}
 	}
+	
+	// TODO: move to weapon class
 	private void SpawnBullet()
 	{
-		GD.Print("Fired!");
+		//GD.Print("Fired!");
+		
+		// TODO: use object pooling
 		var shot = BulletScene.Instantiate<Shots>();
 		shot.Position = Position;
+		shot.Rotation = Rotation;
 		GetParent().AddChild(shot);
 	}
 }

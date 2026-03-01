@@ -8,7 +8,7 @@ public partial class Shots : Area2D
 
 	[Signal] public delegate void HitEventHandler();
 	
-	private Vector2 Velocity => Vector2.Up * Speed;
+	private Vector2 Velocity => Vector2.Up.Rotated(Rotation) * Speed;
 	
 	private int _damage = 1;
 	public int Damage => _damage;
@@ -23,8 +23,11 @@ public partial class Shots : Area2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		// TODO: move in facing direction
+		//Position += Vector2.Up.Rotated(Rotation) * (float)delta;
 		Position += Velocity * (float)delta;
 
+		// TODO: remove when outside of playing area
 		if(Position.Y < 0)
 			QueueFree();
 	}
