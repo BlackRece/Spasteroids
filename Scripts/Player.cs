@@ -26,6 +26,7 @@ public partial class Player : Entity
 	public override void _Ready()
 	{
 		_bulletTimer = GetNode<Timer>("ShotClock");
+		_bulletTimer.SetOneShot(true);
 		_bulletTimer.Stop();
 		
 		StartingPos = new(
@@ -37,15 +38,16 @@ public partial class Player : Entity
 
 	public override void _Process(double delta)
 	{
-		if (_bulletTimer.IsStopped() &&
-		    Input.IsActionPressed("kb_fire"))
-		{
-			// Reset ShotClock
-			_bulletTimer.Start(ShotDelay);
-
-			SpawnBullet();
-		}
+		if(Input.IsActionPressed("kb_fire"))
+			FireWeapon();
 		
+		MoveShip(delta);
+		
+		base._Process(delta);
+	}
+	
+	private void MoveShip(double delta)
+	{
 		// Apply velocity
 		//InputDirection = InputAxis;
 		
@@ -53,17 +55,28 @@ public partial class Player : Entity
 		Rotation += TurnInput * RotateSpeed * (float)delta;
 
 		// Up/down thrust along current facing direction
-		var forward = Vector2.Up.Rotated(Rotation);
-		InputDirection = forward * ThrustInput;
-		base._Process(delta);
+		InputDirection = Vector2.Up.Rotated(Rotation) * ThrustInput;
 	}
 	
+	private void FireWeapon()
+	{
+		if (_bulletTimer.IsStopped())
+		{
+			// Reset ShotClock
+			_bulletTimer.Start(ShotDelay);
+
+			SpawnBullet();
+		}
+		else
+		{
+			GD.PushWarning($"Timer: {_bulletTimer.GetTimeLeft()}");
+		}
+	}
 	private void SpawnBullet()
 	{
-		/*
+		GD.Print("Fired!");
 		var shot = BulletScene.Instantiate<Shots>();
 		shot.Position = Position;
 		GetParent().AddChild(shot);
-		*/
 	}
 }
