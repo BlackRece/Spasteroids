@@ -25,16 +25,42 @@ public partial class RoidManager : Node2D
 			_levelCount++;
 
 			for (var i = 0; i < _levelCount; i++)
-				Spawn();
+				Spawn(Roid.RoidData.Default());
 		}
 	}
 
-	private void Spawn()
+	private void Spawn(Roid.RoidData data)
 	{
 		var roid = RoidScene.Instantiate<Roid>();
+		roid.Init(data);
 		GetParent().AddChild(roid);
+
+		roid.Destroyed += OnRoidDestroyed;
 		_roids.Add(roid);
 		
 		_roidCount++;
+	}
+	
+	private void OnRoidDestroyed(Roid roid)
+	{
+		var data = new Roid.RoidData()
+		{
+			Type = roid.Type switch
+			{
+				Roid.RoidType.Large => Roid.RoidType.Medium,
+				Roid.RoidType.Medium => Roid.RoidType.Small,
+				Roid.RoidType.Small => Roid.RoidType.None
+			},
+			Pos = roid.Position
+		};
+
+		if (data.Type != Roid.RoidType.None)
+		{
+			Spawn(data);
+			Spawn(data);
+		}
+		
+		roid.Destroyed -= OnRoidDestroyed;
+		_roids.Remove(roid);
 	}
 }
