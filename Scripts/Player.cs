@@ -1,5 +1,6 @@
 using Godot;
-using Spasteroids.Scripts;
+
+namespace Spasteroids.Scripts;
 
 public partial class Player : Entity
 {

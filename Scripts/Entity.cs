@@ -94,6 +94,4 @@ public partial class Entity : Area2D
         
         return result;
     }
-    
-    
 }
