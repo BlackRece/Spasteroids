@@ -51,7 +51,8 @@ public partial class RoidManager : Node2D
 				Roid.RoidType.Medium => Roid.RoidType.Small,
 				Roid.RoidType.Small => Roid.RoidType.None
 			},
-			Pos = roid.Position
+			Pos = roid.GlobalPosition,
+			Lvl = _levelCount
 		};
 
 		if (data.Type != Roid.RoidType.None)
