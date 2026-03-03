@@ -20,9 +20,6 @@ script = ExtResource("2_nwl4p")
 [node name="Player" parent="." unique_id=1533633431 instance=ExtResource("3_ckxko")]
 position = Vector2(580, 567)
 
-[node name="Roid" parent="." unique_id=1707101238 instance=ExtResource("4_1gfjg")]
-position = Vector2(288, 455)
-
 [node name="RoidManager" type="Node2D" parent="." unique_id=691843420]
 script = ExtResource("5_dpkbi")
 RoidScene = ExtResource("4_1gfjg")
