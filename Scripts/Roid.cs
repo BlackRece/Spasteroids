@@ -14,6 +14,8 @@ public partial class Roid : Entity
 	public int MaxHitPoints { get; set; } = 10;
 	private int _hitPoints = 0;
 
+	private int _lvl = 1;
+
 	public RoidType Type { get; private set; } = RoidType.Large;
 	public enum RoidType { None = 0, Small, Medium, Large }
 
@@ -22,12 +24,14 @@ public partial class Roid : Entity
 	{
 		public float Speed { get; init; } = 0f;
 		public float Scale { get; init; } = 1f;
+		public int Health { get; init; } = 1;
 	}
 	
 	public record RoidData
 	{
 		public RoidType Type { get; init; } = RoidType.None;
 		public Vector2 Pos { get; init; } = Vector2.Zero;
+		public int Lvl { get; init; } = 1;
 		
 		public static RoidData Default() => new ()
 		{
@@ -41,9 +45,9 @@ public partial class Roid : Entity
 	{
 		_roidType = new Dictionary<RoidType, RoidTypeData>()
 		{
-			[RoidType.Small] = new(){ Scale = 1f, Speed = 20f},
-			[RoidType.Medium] = new(){ Scale = 3f, Speed = 10f},
-			[RoidType.Large] = new(){ Scale = 5f, Speed = 5f}
+			[RoidType.Small] = new(){ Scale = 1f, Speed = 20f, Health = 1 },
+			[RoidType.Medium] = new(){ Scale = 3f, Speed = 10f, Health = 5 },
+			[RoidType.Large] = new(){ Scale = 5f, Speed = 5f, Health = 10 }
 		};
 
 		MaxSpeed = _roidType[Type].Speed;
@@ -60,7 +64,8 @@ public partial class Roid : Entity
 		Scale = Scale * _roidType[Type].Scale;
 
 		// TODO: to be multiplied by level
-		_hitPoints = MaxHitPoints;
+		//_hitPoints = MaxHitPoints;
+		_hitPoints = _roidType[Type].Health * _lvl;
 		
 		AreaEntered += OnAreaEntered;
 		
@@ -108,7 +113,8 @@ public partial class Roid : Entity
 	public void Init(RoidData data)
 	{
 		Type = data.Type;
-		Position = data.Pos;
+		StartingPos = data.Pos;
+		_lvl = data.Lvl;
 	}
 	public void SetType(RoidType type = RoidType.Large) => Type = type;
 
